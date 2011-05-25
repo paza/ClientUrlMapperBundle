@@ -22,6 +22,17 @@ class Mapper
      * @return PaZa\ClientUrlMapperBundle\Entity\Client
      */
     public function getClient() {
+        $host = $this->getHost();
+        
+        return self::$host->getClient();
+    }
+    
+    /**
+     * Returns the actual host
+     *
+     * @return PaZa\ClientUrlMapperBundle\Entity\Host
+     */
+    public function getHost() {
         if(is_null(self::$host)) {
             $host_string    = $this->request->getHttpHost();
             self::$host     = $this->hostManager->getByName($host_string);
