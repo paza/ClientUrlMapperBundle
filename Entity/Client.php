@@ -53,7 +53,6 @@ class Client
     private $updated_at;
     
     
-    
     /**
      * Get Id
      *

@@ -1,0 +1,30 @@
+{% extends "ClientUrlMapperBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>
+        Hosts for client {{ client.name }} ({{client.slug}})
+    </h2>
+    
+    <a href="{{ path('paza_clienturlmapper_client') }}">Show all clients</a>
+
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Admin</th>
+        </thead>
+        <tbody>
+            {% for host in hosts %}
+            <tr>
+                <td>{{ host.name }}</td>
+                <td><a href="">Edit</a> / <a href="">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Add a new host</h3>
+    <form id="new_form" action="{{ path('paza_clienturlmapper_host', {'clientSlug': client.slug}) }}" {{ form_enctype(form) }} method="post">
+        {{ form_widget(form) }}
+        <input type="submit" class="submit" value="Submit" />
+    </form>
+{% endblock content %}

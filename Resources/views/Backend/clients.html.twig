@@ -1,0 +1,28 @@
+{#% extends "ZedCardBundle::theme_default.html.twig" %#}
+
+
+{% extends "ClientUrlMapperBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Clients</h2>
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Admin</th>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr>
+                <td>{{ client.name }}</td>
+                <td><a href="{{ path('paza_clienturlmapper_host', {'clientSlug': client.slug}) }}">Edit</a> / <a href="">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>Add a new client</h3>
+    <form id="new_form" action="{{ path('paza_clienturlmapper_client') }}" {{ form_enctype(form) }} method="post">
+        {{ form_widget(form) }}
+        <input type="submit" class="submit" value="Submit" />
+    </form>
+{% endblock content %}

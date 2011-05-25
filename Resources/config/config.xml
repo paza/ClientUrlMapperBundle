@@ -5,12 +5,30 @@
 
     <parameters>
         <parameter key="paza.clienturlmapper.helper.mapper.class">PaZa\ClientUrlMapperBundle\Helper\Mapper</parameter>
+        
+        <parameter key="paza.clienturlmapper.entity.host.class">PaZa\ClientUrlMapperBundle\Entity\Host</parameter>
+        <parameter key="paza.clienturlmapper.entity.host_manager.class">PaZa\ClientUrlMapperBundle\Entity\HostManager</parameter>
+        
+        <parameter key="paza.clienturlmapper.controller.backend.class">PaZa\ClientUrlMapperBundle\Controller\BackendController</parameter>
     </parameters>
     
     <services>
+        <service id="paza.clienturlmapper.entity.host_manager" class="%paza.clienturlmapper.entity.host_manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%paza.clienturlmapper.entity.host.class%</argument>
+        </service>
+        
         <service id="paza.clienturlmapper.helper.mapper" class="%paza.clienturlmapper.helper.mapper.class%" scope="request">
             <argument type="service" id="request" />
+            <argument type="service" id="paza.clienturlmapper.entity.host_manager" />
+        </service>
+        
+        <service id="paza.clienturlmapper.controller.backend" class="%paza.clienturlmapper.controller.backend.class%" scope="request">
+            <argument type="service" id="request" />
+            <argument type="service" id="fos_rest.view" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="form.factory" />
         </service>
     </services>
 </container>

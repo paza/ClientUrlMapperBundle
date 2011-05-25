@@ -26,13 +26,6 @@ class Host
     /**
      * @var string
      *
-     * @ORM\Column(name="slug", type="string", length="100")
-     */
-    private $slug;
-
-    /**
-     * @var string
-     *
      * @Assert\NotBlank(message="Please enter a mandant name")
      * @ORM\Column(name="name", type="string", length="50")
      */
@@ -52,6 +45,14 @@ class Host
      */
     private $updated_at;
     
+    /**
+     * @var Client
+     *
+     * @ORM\ManyToOne(targetEntity="PaZa\ClientUrlMapperBundle\Entity\Client", inversedBy="children")
+     * @ORM\JoinColumn(name="paza_mandant_client_id", referencedColumnName="id")
+     */
+    private $client;
+    
     
     /**
      * Get Id
@@ -61,34 +62,6 @@ class Host
     public function getId()
     {
         return $this->id;
-    }
-    
-    /**
-     * Set Slug
-     *
-     * @param string $slug
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-    }
-
-    /**
-     * Get Slug
-     *
-     * @return string $slug
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-    
-    /**
-     * Increment Slug (creates a slug for the given name on create/update)
-     */
-    public function incrementSlug()
-    {
-        $this->setSlug($this->generateSlug($this->getName()));
     }
     
     /**
@@ -170,6 +143,26 @@ class Host
         $this->updated_at = new \DateTime();
     }
     
+    /**
+     * Set Client
+     *
+     * @param Client $client
+     */
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * Get Client
+     *
+     * @return Client $client
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+    
     
     /**
      * @ORM\PrePersist
@@ -177,7 +170,6 @@ class Host
     public function doPrePersist()
     {
         $this->incrementCreatedAt();
-        $this->incrementSlug();
     }
     
     /**
@@ -186,7 +178,6 @@ class Host
     public function doPreUpdate()
     {
         $this->incrementUpdatedAt();
-        $this->incrementSlug();
     }
     
     
